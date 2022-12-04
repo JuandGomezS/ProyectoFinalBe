@@ -1,19 +1,20 @@
 const express = require("express");
-const { productValidator } = require('../validators/product.validator')
 
 const {
-    getProducts,
-    appendProduct,
-    updateProduct,
-    removeProduct,
-} = require("../controllers/products.controller");
+    getCart,
+    createCart,
+    removeCart,
+    addCartProduct,
+    removeProduct
+} = require("../controllers/carts.controller");
 
-const CARTS_ROUTER = express.Router();
+const CART_ROUTER = express.Router();
 
-CARTS_ROUTER
-    .get("/:id?", getProducts)
-    .post("/", productValidator, appendProduct)
-    .put("/:id", productValidator, updateProduct)
-    .delete("/:id", removeProduct);
+CART_ROUTER
+    .get("/:id?", getCart)
+    .post("/", createCart)
+    .post("/:idCart/productos/:idProd", addCartProduct)
+    .delete("/:idCart/productos/:idProd", removeProduct)
+    .delete("/:id", removeCart);
 
-module.exports = CARTS_ROUTER;
+module.exports = CART_ROUTER;

@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/productos", PRODUCTS_ROUTER);
-app.use("api/carrito", CARTS_ROUTER)
+app.use("/api/carrito", CARTS_ROUTER);
 
 app.get('*', function (req, res){
     return Error.notImplemented(req, res);
@@ -28,3 +28,4 @@ const server = app.listen(PORT, () => {
 });
 
 server.on("error", (error) => console.log("Error en servidor", error));
+

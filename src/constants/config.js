@@ -27,6 +27,9 @@ const Error = {
             description: `Route ${req.hostname}${req.originalUrl} method ${req.method} not implemented `,
         }),
 
+    cartNotFound: (res) =>
+        res.status(404).json({ error: -10, description: "Cart not found" }),
+
 };
 
 module.exports = { config, Error };

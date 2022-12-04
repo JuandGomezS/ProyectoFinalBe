@@ -1,48 +1,7 @@
 [
 	{
-		"timestamp": "04-12-2022 01:52:58",
+		"timestamp": "04-12-2022 14:58:49",
 		"products": [],
 		"id": 1
-	},
-	{
-		"timestamp": "04-12-2022 01:52:59",
-		"products": [
-			{
-				"title": "Producto 2",
-				"description": "Producto",
-				"code": 54321,
-				"thumbnail": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-64.png",
-				"price": 100,
-				"stock": 5,
-				"timestamp": "04-12-2022 00:49:39",
-				"id": 1
-			},
-			{
-				"title": "Producto 2",
-				"description": "Producto",
-				"code": 54321,
-				"thumbnail": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-64.png",
-				"price": 100,
-				"stock": 5,
-				"timestamp": "04-12-2022 00:49:41",
-				"id": 2
-			},
-			{
-				"title": "Producto 2",
-				"description": "Producto",
-				"code": 54321,
-				"thumbnail": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-64.png",
-				"price": 100,
-				"stock": 5,
-				"timestamp": "04-12-2022 00:49:42",
-				"id": 3
-			}
-		],
-		"id": 2
-	},
-	{
-		"timestamp": "04-12-2022 01:52:59",
-		"products": [],
-		"id": 3
 	}
 ]

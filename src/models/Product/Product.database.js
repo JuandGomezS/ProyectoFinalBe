@@ -22,7 +22,7 @@ class Product extends File {
         } else {
             const response = {
                 error: 1,
-                message: `Directory ${this.pathFile} doesn't exits`
+                message: `Not products found`
             }
             return response;
         }
@@ -50,19 +50,11 @@ class Product extends File {
             error: 1,
             message: `Error saving product`
         }
-
         const issetFile = await this.readFile(this.pathFile);
-
-        if (issetFile.error) {
-            await this.writeFile(this.pathFile, '[]');
-        }
-
+        if (issetFile.error) await this.writeFile(this.pathFile, '[]');
         let array = await this.getAllProducts(true);
-
         object.id = array.length > 0 ? parseInt(array.at(-1).id + 1) : 1;
-
         array.push(object);
-
         try {
             await this.writeFile(this.pathFile, JSON.stringify(array, null, "\t"));
             response.error = 0,
@@ -70,7 +62,6 @@ class Product extends File {
         } catch (error) {
             throw new Error(error);
         }
-
         return response;
     }
 
@@ -83,15 +74,12 @@ class Product extends File {
         const response = {}
         let data = await this.getAllProducts(true);
         let index = data.findIndex(product => product.id == id);
-
         if (index < 0) {
             response.error = 1;
             response.message = "Task could not be completed, product not found";
             return response;
         }
-
         data = data.filter(product => product.id != id);
-
         try {
             await this.writeFile(this.pathFile, JSON.stringify(data, null, "\t"));
             response.error = 0,
@@ -112,15 +100,9 @@ class Product extends File {
     updateProduct = async (id, body) => {
         let data = await this.getAllProducts(true);
         let index = data.findIndex(product => product.id == id);
-
-        if (index < 0) {
-            return false;
-        }
-
+        if (index < 0) return false;
         data.splice(index, 1, { ...data[index], ...body });
-
         await this.writeFile(this.pathFile, JSON.stringify(data, null, "\t"));
-
         return data[index];
     }
 }

@@ -1,11 +1,9 @@
-require('dotenv').config({ path: '../../.env' });
 
 const config = {
-    admin: process.env.ADMIN === 'true',
+    admin: true,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
 };
 
-console.log(config)
 
 const Error = {
     notFound: (res) =>
@@ -31,4 +29,4 @@ const Error = {
 
 };
 
-module.exports = { config, Error }; 
+module.exports = { config, Error };

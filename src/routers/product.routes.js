@@ -1,14 +1,14 @@
-const express = require("express");
-const { productValidator } = require('../validators/product.validator')
+import { Router } from "express";
+import { productValidator } from '../validators/product.validator.js';
 
-const {
+import {
     getProducts,
     appendProduct,
     updateProduct,
     removeProduct,
-} = require("../controllers/products.controller");
+} from "../controllers/products.controller.js";
 
-const PRODUCTS_ROUTER = express.Router();
+const PRODUCTS_ROUTER = Router();
 
 PRODUCTS_ROUTER
     .get("/:id?", getProducts)
@@ -16,4 +16,4 @@ PRODUCTS_ROUTER
     .put("/:id", productValidator, updateProduct)
     .delete("/:id", removeProduct);
 
-module.exports = PRODUCTS_ROUTER;
+export { PRODUCTS_ROUTER }

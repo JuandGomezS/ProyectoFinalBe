@@ -1,7 +1,7 @@
-const moment = require("moment");
-const { config: { timeFormat } } = require("../../constants/config");
+import moment from "moment";
+import { config } from "../../../constants/config.js";
 
-class ProductBody {
+export class ProductBody {
     constructor({ title, description, code, thumbnail, price, stock }) {
         this.title = title;
         this.description = description;
@@ -9,8 +9,6 @@ class ProductBody {
         this.thumbnail = thumbnail || null;
         this.price = Number(price);
         this.stock = Number(stock);
-        this.timestamp = moment().format(timeFormat);
+        this.timestamp = moment().format(config.timeFormat);
     }
 }
-
-module.exports = ProductBody;

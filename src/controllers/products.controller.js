@@ -1,40 +1,38 @@
-const Product = require('../models/Product/Product.database');
-const productDB = new Product("products");
-const { config: { admin }, Error } = require("../constants/config");
-
-const ProductBody = require('../models/Product/Product.model');
+import { createDatabase } from "../DAOs/createDatabase.js";
+import { config, Error } from '../constants/config.js';
+const productsDB = createDatabase().products;
 
 const getProducts = async (req, res) => {
     const { id } = req.params;
     if (id) {
-        const product = await productDB.getProduct(id)
+        const product = await productsDB.getProduct(id)
         return product ? res.json(product) : Error.notFound(res);
     }
-    let productos = await productDB.getAllProducts();
+    let productos = await createDatabase().products.getAllProducts();
     res.json(productos);
 }
 
 const appendProduct = async (req, res) => {
-    if (!admin) return Error.unauthorized(req, res);
-    const saved = await productDB.saveProduct(new ProductBody(req.body));
+    if (!config.admin) return Error.unauthorized(req, res);
+    const saved = await productsDB.saveProduct(req.body);
     return saved.error ? Error.notComplete(res) : res.json(saved);
 }
 
 const updateProduct = async (req, res) => {
-    if (!admin) return Error.unauthorized(req, res);
+    if (!config.admin) return Error.unauthorized(req, res);
     const { id } = req.params;
-    const updated = await productDB.updateProduct(id, req.body);
+    const updated = await productsDB.updateProduct(id, req.body);
     return updated ? res.json(updated) : Error.notFound(res);
 }
 
 const removeProduct = async (req, res) => {
-    if (!admin) return Error.unauthorized(req, res);
+    if (!config.admin) return Error.unauthorized(req, res);
     const { id } = req.params;
-    const deleted = await productDB.deleteProduct(id);
+    const deleted = await productsDB.deleteProduct(id);
     return deleted.error ? Error.notFound(res) : res.json(deleted);
 }
 
-module.exports = {
+export {
     getProducts,
     appendProduct,
     updateProduct,

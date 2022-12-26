@@ -1,8 +1,6 @@
-const Cart = require('../models/Cart/Cart.database');
-const cartDB = new Cart("carts");
-const { config: { admin }, Error } = require("../constants/config");
-
-const CartBody = require('../models/Cart/Cart.model');
+import { createDatabase } from "../DAOs/createDatabase.js";
+import { Error } from '../constants/config.js';
+const cartDB = createDatabase().carts;
 
 const getCart = async (req, res) => {
     const { id } = req.params;
@@ -11,7 +9,7 @@ const getCart = async (req, res) => {
 }
 
 const createCart = async (req, res) => {
-    const saved = await cartDB.saveCart(new CartBody());
+    const saved = await cartDB.saveCart();
     return saved.error ? Error.notComplete(res) : res.json(saved);
 }
 
@@ -33,7 +31,7 @@ const removeProduct = async (req, res) => {
     return deleted ? res.json(deleted) : Error.notFound(res);
 }
 
-module.exports = {
+export {
     getCart,
     createCart,
     removeCart,

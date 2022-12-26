@@ -1,7 +1,36 @@
+const selectedDatabase = 1;
 
 const config = {
     admin: true,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
+
+    productsCollection: "products",
+    cartCollection: "carts",
+
+    mySql: {
+        client: "mysql",
+        connection: {
+            host: process.env.MYSQL_HOST,
+            port: process.env.MYSQL_PORT,
+            user: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PWD,
+            database: process.env.MYSQL_DB,
+        },
+        useNullAsDefault: true,
+    },
+
+    sqlite: {
+        client: "sqlite3",
+        connection: {
+            filename: process.env.SQLITE_DB,
+        },
+        useNullAsDefault: true,
+    },
+
+    mongoUri: {
+        local: process.env.MONGO_LOCAL,
+        remote: process.env.MONGO_REMOTE,
+    },
 };
 
 
@@ -32,4 +61,4 @@ const Error = {
 
 };
 
-module.exports = { config, Error };
+export { config, Error, selectedDatabase };

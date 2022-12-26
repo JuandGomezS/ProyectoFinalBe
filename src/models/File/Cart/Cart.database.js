@@ -1,8 +1,9 @@
-const File = require('../File');
-const Product = require('../Product/Product.database');
+import { File } from '../File.js';
+import { Product } from '../Product/Product.database.js';
+import { CartBody } from './Cart.model.js';
 const productDB = new Product("products");
 
-class Cart extends File {
+export class Cart extends File {
 
     constructor(fileName) {
         super();
@@ -43,7 +44,8 @@ class Cart extends File {
      * @param {object} object
      * @returns object
      */
-    saveCart = async (object) => {
+    saveCart = async () => {
+        let cart = new CartBody();
         const response = {
             error: 1,
             message: `Error saving product`
@@ -51,12 +53,12 @@ class Cart extends File {
         const issetFile = await this.readFile(this.pathFile);
         if (issetFile.error) await this.writeFile(this.pathFile, '[]');
         let array = await this.getAllCarts(true);
-        object.id = array.length > 0 ? parseInt(array.at(-1).id + 1) : 1;
-        array.push(object);
+        cart.id = array.length > 0 ? parseInt(array.at(-1).id + 1) : 1;
+        array.push(cart);
         try {
             await this.writeFile(this.pathFile, JSON.stringify(array, null, "\t"));
             response.error = 0,
-                response.message = `The cart has been saved with id: ${object.id}`;
+                response.message = `The cart has been saved with id: ${cart.id}`;
         } catch (error) {
             throw new Error(error);
         }
@@ -78,7 +80,7 @@ class Cart extends File {
         try {
             await this.writeFile(this.pathFile, JSON.stringify(data, null, "\t"));
             response.error = 0,
-            response.message = `The cart with id: ${id} has been deleted `;
+                response.message = `The cart with id: ${id} has been deleted `;
         } catch (error) {
             response.error = 1;
             response.message = "Task could not be completed";
@@ -120,5 +122,3 @@ class Cart extends File {
     }
 
 }
-
-module.exports = Cart;

@@ -18,5 +18,35 @@
 		"stock": 5,
 		"timestamp": "04-12-2022 15:02:38",
 		"id": 2
+	},
+	{
+		"title": "Producto",
+		"description": "Producto",
+		"code": 54321,
+		"thumbnail": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-64.png",
+		"price": 100,
+		"stock": 5,
+		"timestamp": "25-12-2022 13:05:12",
+		"id": 3
+	},
+	{
+		"title": "Producto",
+		"description": "Producto",
+		"code": 54321,
+		"thumbnail": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-64.png",
+		"price": 100,
+		"stock": 5,
+		"timestamp": "25-12-2022 20:48:03",
+		"id": 4
+	},
+	{
+		"title": "Producto",
+		"description": "Producto",
+		"code": 54321,
+		"thumbnail": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-64.png",
+		"price": 100,
+		"stock": 5,
+		"timestamp": "25-12-2022 20:50:41",
+		"id": 5
 	}
 ]

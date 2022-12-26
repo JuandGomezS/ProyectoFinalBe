@@ -1,6 +1,7 @@
-const File = require('../File');
+import {File} from "../File.js";
+import { ProductBody } from './Product.model.js';
 
-class Product extends File {
+export class Product extends File {
 
     constructor(fileName) {
         super();
@@ -46,6 +47,7 @@ class Product extends File {
      * @returns object
      */
     saveProduct = async (object) => {
+        let product = new ProductBody(object);
         const response = {
             error: 1,
             message: `Error saving product`
@@ -53,12 +55,12 @@ class Product extends File {
         const issetFile = await this.readFile(this.pathFile);
         if (issetFile.error) await this.writeFile(this.pathFile, '[]');
         let array = await this.getAllProducts(true);
-        object.id = array.length > 0 ? parseInt(array.at(-1).id + 1) : 1;
-        array.push(object);
+        product.id = array.length > 0 ? parseInt(array.at(-1).id + 1) : 1;
+        array.push(product);
         try {
             await this.writeFile(this.pathFile, JSON.stringify(array, null, "\t"));
             response.error = 0,
-            response.message = `The product has been saved with id: ${object.id}`;
+            response.message = `The product has been saved with id: ${product.id}`;
         } catch (error) {
             throw new Error(error);
         }
@@ -106,5 +108,3 @@ class Product extends File {
         return data[index];
     }
 }
-
-module.exports = Product;

@@ -1,6 +1,7 @@
-const fs = require('fs');
+import * as fs from 'fs';
 
-class File {
+
+export class File {
 
     /**
      * Method to validate that FileName's directory exist
@@ -21,10 +22,8 @@ class File {
         }
     }
 
-    async writeFile(path, content){
+    async writeFile(path, content) {
         await fs.promises.writeFile(path, content);
     }
 
 }
-
-module.exports = File

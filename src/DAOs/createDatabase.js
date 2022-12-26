@@ -10,7 +10,7 @@ function createDatabase() {
             return createFilesConnection(config.productsCollection, config.cartCollection)
 
         // MySQL
-        /* case 2:
+        case 2:
             const {
                 config: { mySql },
             } = require("../constants/config");
@@ -19,7 +19,7 @@ function createDatabase() {
                 cartCollection,
                 mySql
             );
-
+        /*
         // SQLITE
         case 4:
             const {

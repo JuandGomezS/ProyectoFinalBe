@@ -58,7 +58,7 @@ export class Cart extends File {
         try {
             await this.writeFile(this.pathFile, JSON.stringify(array, null, "\t"));
             response.error = 0,
-                response.message = `The cart has been saved with id: ${cart.id}`;
+            response.message = `The cart has been saved with id: ${cart.id}`;
         } catch (error) {
             throw new Error(error);
         }
@@ -80,7 +80,7 @@ export class Cart extends File {
         try {
             await this.writeFile(this.pathFile, JSON.stringify(data, null, "\t"));
             response.error = 0,
-                response.message = `The cart with id: ${id} has been deleted `;
+            response.message = `The cart with id: ${id} has been deleted `;
         } catch (error) {
             response.error = 1;
             response.message = "Task could not be completed";

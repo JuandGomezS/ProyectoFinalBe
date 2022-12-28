@@ -1,14 +1,14 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const selectedDatabase = 1;
+const selectedDatabase = 2;
 
 const config = {
     admin: true,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
 
-    productsCollection: "products",
-    cartCollection: "carts",
+    productsCollection: "product",
+    cartCollection: "cart",
 
     mySql: {
         client: "mysql",

@@ -1,5 +1,6 @@
 import { config, selectedDatabase } from "../constants/config.js";
 import { createFilesConnection } from "./createFileConnection.js";
+import { createSQLConnection } from "./createSqlConnection.js";
 
 function createDatabase() {
 
@@ -11,14 +12,7 @@ function createDatabase() {
 
         // MySQL
         case 2:
-            const {
-                config: { mySql },
-            } = require("../constants/config");
-            return require("./createSqlConnection")(
-                productsCollection,
-                cartCollection,
-                mySql
-            );
+            return createSQLConnection(config.productsCollection, config.cartCollection);
         /*
         // SQLITE
         case 4:

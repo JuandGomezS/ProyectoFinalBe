@@ -8,7 +8,7 @@ const getProducts = async (req, res) => {
         const product = await productsDB.getProduct(id)
         return product ? res.json(product) : Error.notFound(res);
     }
-    let productos = await createDatabase().products.getAllProducts();
+    let productos = await productsDB.getAllProducts();
     res.json(productos);
 }
 

@@ -1,18 +1,9 @@
-import knex from "knex";
 import moment from "moment";
-import { config as configRoot, selectedDatabase} from "../../../constants/config.js";
-const {pathname: root} = new URL('../', import.meta.url)
-const __dirname=root.substring(1);
-import * as dotenv from 'dotenv'
-dotenv.config()
+import { config as configRoot } from "../../../constants/config.js";
 
-export class SqlProduct {
-    constructor(table, config) {
-        if (selectedDatabase == 3) {
-            config.connection.filename = __dirname + process.env.SQLITE_DB;
-        }
-        this.database = knex(config);
-        this.table = table;
+export class MongoProduct {
+    constructor(model) {
+        this.model = model
     }
 
     /**
@@ -20,7 +11,7 @@ export class SqlProduct {
        * @returns Array of products or object
        */
     getAllProducts = async () => {
-        let productos = await this.database.select("*").from(this.table);
+        let productos = await this.model.find({}, { __v: 0 });
         if (!productos.length) {
             const response = {
                 error: 1,
@@ -39,7 +30,7 @@ export class SqlProduct {
      */
     getProduct = async (id) => {
         try {
-            return await this.database.select("*").from(this.table).where("id_product", id);
+            return await this.model.find({ id: id.toString() }, { __v: 0 });
         } catch (error) {
             return false;
         }
@@ -52,16 +43,18 @@ export class SqlProduct {
      */
     saveProduct = async (data) => {
         try {
-            const [itemID] = await this.database(this.table).insert({
+            let last = await this.model.find({}).sort({ id: -1 }).limit(1);
+            let newId = last.length > 0 ? parseInt(last.at(-1).id + 1) : 1;
+
+            let prod = new this.model({
+                id: newId,
                 timestamp: moment().format(configRoot.timeFormat),
-                title: data.title,
-                description: data.description,
-                code: data.code,
-                thumbnail: data.thumbnail,
-                price: data.price,
-                stock: data.stock,
+                ...data
             });
-            return await this.getProduct(itemID)
+
+            const newProduct = await prod.save();
+
+            return await this.getProduct(newId);
 
         } catch (error) {
             const response = {
@@ -79,10 +72,10 @@ export class SqlProduct {
      */
     deleteProduct = async (id) => {
         let response = {};
-        let del = await this.database(this.table).where("id_product", id).del();
-        if (del == 1) {
+        let del = await this.model.deleteOne({ id: id });
+        if (del.deletedCount >= 1) {
             response.error = 0,
-                response.message = `The product with id: ${id} has been deleted`;
+            response.message = `The product with id: ${id} has been deleted`;
         } else {
             response.error = 1;
             response.message = "Task could not be completed, product not found";
@@ -98,8 +91,10 @@ export class SqlProduct {
      */
     updateProduct = async (id, data) => {
         try {
-            await this.database(this.table).where("id_product", id).update(data);
-            return await this.getProduct(id);
+
+            let upt = await this.model.updateOne({ id: id }, data);
+            if (upt.modifiedCount) return await this.getProduct(id);
+
         } catch (error) {
             return false;
         }

@@ -11,7 +11,7 @@ import {
 const CART_ROUTER = Router();
 
 CART_ROUTER
-    .get('/:id?', getCart)
+    .get('/:id/productos', getCart)
     .post('/', createCart)
     .post('/:idCart/productos/:idProd', addCartProduct)
     .delete('/:idCart/productos/:idProd', removeProduct)

@@ -1,11 +1,12 @@
 import { SqlCart } from "../models/SQL/Cart/cart.database.js";
 import { SqlProduct } from "../models/SQL/Product/product.database.js";
-import { config } from "../constants/config.js";
+import { config, selectedDatabase} from "../constants/config.js";
 
 function createSQLConnection(productsCollection, cartCollection) {
+    const products = new SqlProduct(productsCollection, selectedDatabase == 2 ? config.mySql : config.sqlite )
     return {
-        products: new SqlProduct(productsCollection, config.mySql),
-        carts: new SqlCart(cartCollection,  config.mySql),
+        carts: new SqlCart(cartCollection,  selectedDatabase == 2 ? config.mySql : config.sqlite, products ),
+        products
     };
 }
 

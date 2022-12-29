@@ -1,6 +1,7 @@
 import { config, selectedDatabase } from "../constants/config.js";
 import { createFilesConnection } from "./createFileConnection.js";
 import { createSQLConnection } from "./createSqlConnection.js";
+import { createMongoConnection } from "./createMongoConnection.js";
 
 function createDatabase() {
 
@@ -10,44 +11,17 @@ function createDatabase() {
         case 1:
             return createFilesConnection(config.productsCollection, config.cartCollection)
 
-        // MySQL
+        // MySQL y SQLITE
         case 2:
+        case 3:
             return createSQLConnection(config.productsCollection, config.cartCollection);
-        /*
-        // SQLITE
+
+        //MONGO ATLAS
         case 4:
-            const {
-                config: { sqlite },
-            } = require("../constants/config");
-            return require("./createSqlConnection")(
-                productsCollection,
-                cartCollection,
-                sqlite
-            );
+            return createMongoConnection(config.mongoUri)
 
-        // MongoDB Local
-        case 5:
-            const {
-                config: {
-                    mongoUri: { local },
-                },
-            } = require("../constants/config");
-            return require("./createMongoConnection")(local);
-
-        // MongoDB Remote
-        case 6:
-            const {
-                config: {
-                    mongoUri: { remote },
-                },
-            } = require("../constants/config");
-            return require("./createMongoConnection")(remote);
-
-        case 7:
-            return require("./createFirebaseConnection")(
-                productsCollection,
-                cartCollection
-            ); */
+        /* case 7:
+            return crea */
     }
 }
 

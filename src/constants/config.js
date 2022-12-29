@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const selectedDatabase = 2;
+const selectedDatabase = 4;
 
 const config = {
     admin: true,
@@ -25,15 +25,11 @@ const config = {
     sqlite: {
         client: "sqlite3",
         connection: {
-            filename: process.env.SQLITE_DB,
         },
         useNullAsDefault: true,
     },
 
-    mongoUri: {
-        local: process.env.MONGO_LOCAL,
-        remote: process.env.MONGO_REMOTE,
-    },
+    mongoUri:process.env.MONGO_REMOTE
 };
 
 

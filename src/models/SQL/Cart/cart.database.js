@@ -1,15 +1,17 @@
 import knex from "knex";
 import moment from "moment";
 import { config as configRoot } from "../../../constants/config.js";
-import { SqlProduct } from "../Product/product.database.js";
 
 export class SqlCart {
-    constructor(table, config) {
+    constructor(table, config, productDB) {
         this.database = knex(config);
         this.table = table;
         this.tableProduct = configRoot.productsCollection;
         this.configProd = config
+        this.productDB = productDB
     }
+
+
 
     /**
      * Async Method to get cart by id
@@ -76,12 +78,10 @@ export class SqlCart {
 
     appendProduct = async (idCart, idProd) => {
         try {
-            const productDB = new SqlProduct(this.tableProduct, this.configProd);
             const isP = await this.#getProductInCart(idProd, idCart)
 
             if (isP.length == 0) {
-                const ptoAdd = await productDB.getProduct(idProd);
-                console.log(ptoAdd)
+                const ptoAdd = await this.productDB.getProduct(idProd);
                 if (ptoAdd.length == 0) {
                     return false;
                 }

@@ -92,7 +92,6 @@ export class MongoCart {
                     { $push: { products: prodtoAdd } },
                     (err, res) => {
                         if (err) return console.error(err);
-                        console.log(" Producto agregado al carrito.");
                     }
                 );
             } else {
@@ -103,7 +102,6 @@ export class MongoCart {
                     { "$set": { "products.$.qty": newQty, "products.$.total_price": newTp } },
                     (err, res) => {
                         if (err) return console.error(err);
-                        console.log("Producto agregado al carrito.");
                     }
                 );
             }
@@ -130,7 +128,6 @@ export class MongoCart {
                     { "$set": { "products.$.qty": newQty, "products.$.total_price": newTp } },
                     (err, res) => {
                         if (err) return console.error(err);
-                        console.log("Producto agregado al carrito.");
                     }
                 );
             }

@@ -2,6 +2,7 @@ import { config, selectedDatabase } from "../constants/config.js";
 import { createFilesConnection } from "./createFileConnection.js";
 import { createSQLConnection } from "./createSqlConnection.js";
 import { createMongoConnection } from "./createMongoConnection.js";
+import { createFirebaseConnection } from "./createFirebaseConnection.js";
 
 function createDatabase() {
 
@@ -18,13 +19,12 @@ function createDatabase() {
 
         //MONGO ATLAS
         case 4:
-            return createMongoConnection(config.mongoUri)
+            return createMongoConnection(config.mongoUri);
 
-        /* case 7:
-            return crea */
+        //FIREBASE
+        case 5:
+            return createFirebaseConnection(config.productsCollection, config.cartCollection);
     }
 }
 
-export {
-    createDatabase
-}
+export { createDatabase }

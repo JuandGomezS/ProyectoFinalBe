@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const selectedDatabase = 4;
+const selectedDatabase = 1;
 
 const config = {
     admin: true,

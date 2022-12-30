@@ -1,7 +1,7 @@
 import { File } from '../File.js';
 import { Product } from '../Product/Product.database.js';
 import { CartBody } from './Cart.model.js';
-const productDB = new Product("products");
+const productDB = new Product("product");
 
 export class Cart extends File {
 

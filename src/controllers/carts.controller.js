@@ -1,4 +1,4 @@
-import { createDatabase } from "../DAOs/createDatabase.js";
+import { createDatabase } from "../DAO/createDatabase.js";
 import { Error } from '../constants/config.js';
 
 const getCart = async (req, res) => {

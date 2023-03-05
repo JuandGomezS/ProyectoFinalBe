@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
 import { config } from '../../constants/config.js';
 
-const productosCollection = config.productsCollection;
-const carritoCollection = config.cartCollection;
+/**************************************Collections**********************************/
+const productCollection = config.productsCollection;
+const cartCollection = config.cartCollection;
+const userCollection = config.userCollection;
 
+/****************************************Schemas************************************/
 const productSchema = mongoose.Schema({
     id: { type: Number, require: true },
     timestamp: { type: String, require: true },
@@ -23,7 +26,24 @@ const cartSchema = mongoose.Schema({
     products: [productSchema]
 })
 
-const mongoProduct = mongoose.model(productosCollection, productSchema);
-const mongoCart = mongoose.model(carritoCollection, cartSchema);
+const userEsquema = mongoose.Schema(
+    {
+        username: { type: String, required: true },
+        password: { type: String, required: true },
+        name: { type: String, required: true },
+        address: { type: String, required: true },
+        age: { type: Number, require: true },
+        telephone:{ type: Number, require: true },
+        avatar:{ type: String, required: true }
+    },
+    { versionKey: false },
 
-export { mongoProduct, mongoCart }
+);
+
+/****************************************Models*************************************/
+const mongoUser = mongoose.model(userCollection, userEsquema);
+const mongoProduct = mongoose.model(productCollection, productSchema);
+const mongoCart = mongoose.model(cartCollection, cartSchema);
+
+/***********************************************************************************/
+export { mongoProduct, mongoCart, mongoUser }

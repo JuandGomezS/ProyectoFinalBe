@@ -1,33 +1,14 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const selectedDatabase = 5;
-
 const config = {
-    admin: true,
+    admin: process.env.ADMIN,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
+    clusterMode: process.env.CLUSTER_MODE,
 
     productsCollection: "product",
     cartCollection: "cart",
-
-    mySql: {
-        client: "mysql",
-        connection: {
-            host: process.env.MYSQL_HOST,
-            port: process.env.MYSQL_PORT,
-            user: process.env.MYSQL_USER,
-            password: process.env.MYSQL_PWD,
-            database: process.env.MYSQL_DB,
-        },
-        useNullAsDefault: true,
-    },
-
-    sqlite: {
-        client: "sqlite3",
-        connection: {
-        },
-        useNullAsDefault: true,
-    },
+    userCollection: "users",
 
     mongoUri:process.env.MONGO_REMOTE
 };
@@ -60,4 +41,4 @@ const Error = {
 
 };
 
-export { config, Error, selectedDatabase };
+export { config, Error };

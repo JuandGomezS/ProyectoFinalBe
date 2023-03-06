@@ -21,7 +21,7 @@ function renderSignUp(req, res) {
     logger.info(`Access to route: /signup method: ${method}`)
     return req.isAuthenticated()
         ? res.redirect("/")
-        : res.render("signup", { script: 'signup' });
+        : res.render("signup",{ script: 'redirect' });
 }
 
 function renderFailLogin(req, res) {
@@ -48,12 +48,23 @@ function renderLogin(req, res) {
         : res.render("login");
 }
 
+async function savePicturesLocal  (req, res, next) {
+	try {
+		let avatar = req.files.avatar;
+		avatar.mv('./public/avatars/' + `${req.body.username}` + '.jpg');
+	} catch (error) {
+		logger.error(error)
+	}
+	next();
+};
+
 
 export {
     destroyCredentials,
     renderFailLogin,
     renderLogin,
     renderFailSignUp,
-    renderSignUp
+    renderSignUp,
+    savePicturesLocal
 };
 

@@ -1,6 +1,12 @@
 import bcrypt from 'bcrypt';
 import { mongoUser } from '../Mongo.models.js';
+import { MongoCart } from "../Cart/cart.database.js";
+import { mongoCart } from "../Mongo.models.js";
+import { MongoProduct } from '../Product/product.database.js';
+import { mongoProduct } from '../Mongo.models.js';
 
+const products = new MongoProduct(mongoProduct);
+const carts = new MongoCart(mongoCart, products);
 
 async function getUser(username) {
     try {
@@ -39,8 +45,9 @@ async function loginUser(username, password, done) {
 }
 
 
-async function signupUser(username, password, done) {
+async function signupUser(req, username, password, done) {
     try {
+        const cart = await carts.saveCart(true);
         let user = await getUser(username);
         if (user) {
             return done(null, false, console.log(user.username, 'Usuario ya existe'));
@@ -51,8 +58,9 @@ async function signupUser(username, password, done) {
                 name: req.body.name,
                 address: req.body.address,
                 age: req.body.age,
-                telephone: req.boby.telephone,
-                avatar: req.body.avatar
+                telephone: req.body.cel,
+                avatar: `${username}.jpg`,
+                cartId: cart
             })
             newUser.save();
             return done(null, newUser)
@@ -87,5 +95,6 @@ export {
     loginUser,
     signupUser,
     serializeUser,
-    deserializeUser
+    deserializeUser,
+    getUser
 }

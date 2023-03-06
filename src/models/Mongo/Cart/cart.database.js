@@ -24,7 +24,7 @@ export class MongoCart {
      * @param {object} object
      * @returns object
      */
-    saveCart = async () => {
+    saveCart = async (fromFront = false) => {
         try {
             let last = await this.model.find({}).sort({ id: -1 }).limit(1);
             let newId = last.length > 0 ? parseInt(last.at(-1).id + 1) : 1;
@@ -35,8 +35,8 @@ export class MongoCart {
                 products: []
             });
 
-            const newCart = await cart.save();
-
+            await cart.save();
+            if(fromFront) return newId;
             return await this.getCart(newId)
 
         } catch (error) {

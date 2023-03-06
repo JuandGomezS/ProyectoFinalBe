@@ -1,32 +1,38 @@
-import { createDatabase } from "../DAO/createDatabase.js";
 import { Error } from '../constants/config.js';
+import { mongoProduct } from "../models/Mongo/Mongo.models.js";
+import { mongoCart } from "../models/Mongo/Mongo.models.js";
+import { MongoProduct } from "../models/Mongo/Product/product.database.js";
+import { MongoCart } from "../models/Mongo/Cart/cart.database.js";
+
+const products = new MongoProduct(mongoProduct);
+const carts = new MongoCart(mongoCart, products);
 
 const getCart = async (req, res) => {
     const { id } = req.params;
-    const cart = await createDatabase().carts.getCart(id)
+    const cart = await carts.getCart(id)
     return cart ? res.json(cart) : Error.notFound(res);
 }
 
 const createCart = async (req, res) => {
-    const saved = await createDatabase().carts.saveCart();
+    const saved = await carts.saveCart();
     return saved.error ? Error.notComplete(res) : res.json(saved);
 }
 
 const removeCart = async (req, res) => {
     const { id } = req.params;
-    const deleted = await createDatabase().carts.deleteCart(id);
+    const deleted = await carts.deleteCart(id);
     return deleted ? res.json(deleted) : Error.notFound(res);
 }
 
 const addCartProduct = async (req, res) => {
     const { idCart, idProd } = req.params;
-    const added = await createDatabase().carts.appendProduct(idCart, idProd);
+    const added = await carts.appendProduct(idCart, idProd);
     return added ? res.json(added) : Error.notFound(res);
 }
 
 const removeProduct = async (req, res) => {
     const { idCart, idProd } = req.params;
-    const deleted = await createDatabase().carts.deleteCartProduct(idCart, idProd);
+    const deleted = await carts.deleteCartProduct(idCart, idProd);
     return deleted ? res.json(deleted) : Error.notFound(res);
 }
 

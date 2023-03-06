@@ -4,13 +4,13 @@ dotenv.config()
 const config = {
     admin: process.env.ADMIN,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
-    clusterMode: process.env.CLUSTER_MODE,
+    executionMode: process.env.EXECUTION_MODE,
 
-    productsCollection: "product",
-    cartCollection: "cart",
+    productsCollection: "products",
+    cartCollection: "carts",
     userCollection: "users",
 
-    mongoUri:process.env.MONGO_REMOTE
+    mongoUri:process.env.MONGOURL
 };
 
 

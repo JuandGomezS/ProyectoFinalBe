@@ -26,22 +26,21 @@ const cartSchema = mongoose.Schema({
     products: [productSchema]
 })
 
-const userEsquema = mongoose.Schema(
-    {
+const userSchema = mongoose.Schema({
         username: { type: String, required: true },
         password: { type: String, required: true },
         name: { type: String, required: true },
         address: { type: String, required: true },
         age: { type: Number, require: true },
-        telephone:{ type: Number, require: true },
-        avatar:{ type: String, required: true }
+        telephone:{ type: String, require: true },
+        avatar:{ type: String, required: true },
+        cartId: {type: Number, required: true}
     },
     { versionKey: false },
-
 );
 
 /****************************************Models*************************************/
-const mongoUser = mongoose.model(userCollection, userEsquema);
+const mongoUser = mongoose.model(userCollection, userSchema);
 const mongoProduct = mongoose.model(productCollection, productSchema);
 const mongoCart = mongoose.model(cartCollection, cartSchema);
 

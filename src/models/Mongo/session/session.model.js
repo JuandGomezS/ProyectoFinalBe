@@ -4,6 +4,7 @@ import { MongoCart } from "../Cart/cart.database.js";
 import { mongoCart } from "../Mongo.models.js";
 import { MongoProduct } from '../Product/product.database.js';
 import { mongoProduct } from '../Mongo.models.js';
+import { getImageFileName } from '../../../utils/miscelanius.js';
 
 const products = new MongoProduct(mongoProduct);
 const carts = new MongoCart(mongoCart, products);
@@ -49,6 +50,7 @@ async function signupUser(req, username, password, done) {
     try {
         const cart = await carts.saveCart(true);
         let user = await getUser(username);
+        console.log(user)
         if (user) {
             return done(null, false, console.log(user.username, 'Usuario ya existe'));
         } else {
@@ -59,7 +61,7 @@ async function signupUser(req, username, password, done) {
                 address: req.body.address,
                 age: req.body.age,
                 telephone: req.body.cel,
-                avatar: `${username}.jpg`,
+                avatar: getImageFileName(req),
                 cartId: cart
             })
             newUser.save();

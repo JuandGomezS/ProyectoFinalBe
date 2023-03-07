@@ -1,12 +1,13 @@
+
 <div class="container d-flex justify-content-center align-items-center signup">
     <div class="p-5" style="background-color: #e9ecef;">
         <h1 class="text-center">REGISTER</h1>
         <br />
-        <form class="form" action="/signup" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+        <form class="form" action="/signup" method="post" role="form" autocomplete="off" enctype="multipart/form-data" onsubmit="phoneNumber(event)">
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <input type="text" class="form-control" placeholder="Username" name="username" required>
+                        <input type="email" class="form-control" placeholder="Email" name="username" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                     </div>
                     <div class="mb-3">
                         <input type="password" class="form-control" placeholder="Password" name="password" required>
@@ -22,15 +23,15 @@
                     <div class="mb-3">
                         <input type="number" class="form-control" placeholder="Age" name="age" required>
                     </div>
-                    <div class="mb-3">
-                        <input type="tel" class="form-control" name="cel" pattern="^\+[\d\s]+$" onblur="trimWhitespace(this)" placeholder="Telephone" required>
-                        <small>Enter country code prefix followed by your number. Example: +1 555123456</small>
+                    <div class="mb-3" id="div-cel">
+                        <input id="phone" type="tel" class="form-control" name="celphone" placeholder="Telephone" required>
+                        <input id="cel" type="hidden" class="form-control" name="cel" required>
                     </div>
                 </div>
                 <div class="col-md-6 offset-md-3">
                     <div class="mb-3">
                         <label for="avatar" class="form-label">Avatar</label>
-                        <input type="file" class="form-control" name="avatar" required>
+                        <input type="file" class="form-control" name="avatar" accept="image/jpeg, image/png" required>
                     </div>
                 </div>
             </div>
@@ -48,12 +49,7 @@
         </div>
     </div>
 </div>
-<script>
-    function trimWhitespace(input) {
-        let value = input.value.replaceAll(/\s/g,'')
-        input.value=value;
-    }
-</script>
+<script src="../scripts/{{script}}.js"></script>
 <style>
     h1 {
         color: blue;

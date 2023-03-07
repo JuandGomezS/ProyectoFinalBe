@@ -1,12 +1,13 @@
 import { logger } from "../utils/logger.js";
 
 function destroyCredentials(req, res) {
+    console.log(req.user)
     const { url, method } = req
     logger.info(`Access to route: ${url} method: ${method}`)
     if (!req.isAuthenticated()) {
         return res.redirect('/')
     }
-    const username = req.user[0].username;
+    const username = req.user[0].name;
     req.session.destroy((err) => {
         if (err) console.error(err);
         else
@@ -21,7 +22,7 @@ function renderSignUp(req, res) {
     logger.info(`Access to route: /signup method: ${method}`)
     return req.isAuthenticated()
         ? res.redirect("/")
-        : res.render("signup",{ script: 'redirect' });
+        : res.render("signup",{ script: 'signup' });
 }
 
 function renderFailLogin(req, res) {
@@ -48,10 +49,11 @@ function renderLogin(req, res) {
         : res.render("login");
 }
 
-async function savePicturesLocal  (req, res, next) {
-	try {
+async function savePicturesLocal (req, res, next) {
+    try {
+        let ext = req.files.avatar.mimetype.split('/')[1];
 		let avatar = req.files.avatar;
-		avatar.mv('./public/avatars/' + `${req.body.username}` + '.jpg');
+		avatar.mv(`./public/avatars/${req.body.username}.${ext}`);
 	} catch (error) {
 		logger.error(error)
 	}

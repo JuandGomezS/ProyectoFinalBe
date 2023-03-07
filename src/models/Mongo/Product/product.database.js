@@ -11,7 +11,7 @@ export class MongoProduct {
        * @returns Array of products or object
        */
     getAllProducts = async () => {
-        let productos = await this.model.find({}, { __v: 0 });
+        let productos = await this.model.find({}, { __v: 0, _id: 0 }).lean();
         if (!productos.length) {
             const response = {
                 error: 1,

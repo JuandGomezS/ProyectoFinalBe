@@ -18,7 +18,7 @@ import { loginUser, signupUser, serializeUser, deserializeUser } from './src/mod
 import { auth } from './src/utils/authentication.js';
 import { destroyCredentials } from './src/controllers/session.controller.js';
 
-import { renderRoot } from './src/controllers/app.controller.js';
+import { renderRoot, renderProfile } from './src/controllers/app.controller.js';
 import {  PRODUCTS_ROUTER }  from './src/routers/product.routes.js';
 import { CART_ROUTER }  from './src/routers/cart.routes.js';
 import { SIGNUP_ROUTER } from './src/routers/signup.routes.js';
@@ -79,18 +79,19 @@ export function startServer(port){
     app.set('view engine', 'handlebars');
 
     app.get("/", auth, renderRoot)
+        .get('/profile', auth, renderProfile)
         .get('/logout', destroyCredentials)
         .use('/signup', SIGNUP_ROUTER)
         .use('/login', LOGIN_ROUTER)
         .use("/api/productos", PRODUCTS_ROUTER)
         .use("/api/carrito", CART_ROUTER);
 
-    app.get('*', function (req, res){
+    /* app.all('*', function (req, res){
         const { url, method } = req
         let msg = `Route ${method} ${url} not implemented`;
         logger.warn(msg)
         return Error.notImplemented(req, res);
-    });
+    }); */
 
 }
 

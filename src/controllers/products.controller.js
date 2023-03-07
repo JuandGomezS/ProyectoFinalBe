@@ -15,6 +15,10 @@ const getProducts = async (req, res) => {
     res.json(productos);
 }
 
+const getProductstoFront = async () => {
+    return await products.getAllProducts();
+}
+
 const appendProduct = async (req, res) => {
     if (!config.admin) return Error.unauthorized(req, res);
     const saved = await products.saveProduct(req.body);
@@ -37,6 +41,7 @@ const removeProduct = async (req, res) => {
 
 export {
     getProducts,
+    getProductstoFront,
     appendProduct,
     updateProduct,
     removeProduct

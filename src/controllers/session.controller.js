@@ -1,7 +1,6 @@
 import { logger } from "../utils/logger.js";
 
 function destroyCredentials(req, res) {
-    console.log(req.user)
     const { url, method } = req
     logger.info(`Access to route: ${url} method: ${method}`)
     if (!req.isAuthenticated()) {

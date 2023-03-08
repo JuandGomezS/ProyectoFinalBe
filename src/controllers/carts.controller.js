@@ -27,7 +27,8 @@ const removeCart = async (req, res) => {
 const addCartProduct = async (req, res) => {
     const { idCart, idProd } = req.params;
     const added = await carts.appendProduct(idCart, idProd);
-    return added ? res.json(added) : Error.notFound(res);
+    if(!added) return Error.notFound(res);
+    res.json(added);
 }
 
 const removeProduct = async (req, res) => {

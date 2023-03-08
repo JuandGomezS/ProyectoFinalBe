@@ -1,6 +1,7 @@
 
 import moment from "moment";
 import { config as configRoot } from "../../../constants/config.js";
+import { logger } from "../../../utils/logger.js";
 
 export class MongoCart {
     constructor(model, prodModel) {
@@ -14,7 +15,7 @@ export class MongoCart {
      * @returns Object
      */
     getCart = async (id) => {
-        let cart = await this.model.find({ id: id }, { __v: 0 });
+        let cart = await this.model.find({ id: id }, { __v: 0 }).lean();
         if (cart.length == 0) return false;
         return cart;
     }
@@ -44,6 +45,7 @@ export class MongoCart {
                 error: 1,
                 message: `Error saving cart`
             }
+            logger.error(`SaveCart Error: ${response}`)
             return response;
         }
     }
@@ -108,6 +110,7 @@ export class MongoCart {
             return await this.getCart(idCart);
 
         } catch (error) {
+            logger.error(`AppenProduct Error: ${error}`)
             return false;
         }
     }
@@ -116,7 +119,6 @@ export class MongoCart {
         try {
             let isPro = await await this.#getProductInCart(idProd, idCart)
             if (!isPro) {
-                console.log(isPro)
                 return false;
             }
             let qty = isPro.qty;
@@ -141,8 +143,22 @@ export class MongoCart {
 
             return await this.getCart(idCart);
         } catch (error) {
-            console.log(error);
+            logger.error(`DeleteCartProduct Error: ${error}`)
             return false;
+        }
+    }
+
+    clearCart = async (idCart) => {
+        try {
+            this.model.findOneAndUpdate(
+                { id: idCart },
+                { $set: { products: [] } },
+                function (err, data) { }
+            )
+            return true
+        } catch (error) {
+            logger.error(`ClearCart Error: ${error}`);
+            return false
         }
     }
 

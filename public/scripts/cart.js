@@ -1,10 +1,6 @@
-
 const host = document.querySelector('#host').value
-function addToCart(element) {
-    const productId = element.dataset.id;
-    const cartId = document.querySelector('#cart').value
-
-    const url = `${host}/api/carrito/${cartId}/productos/${productId}`;
+function sendOrder() {
+    const url = `${host}/order`;
     fetch(url, { method: 'POST' })
         .then((response) => response.json())
         .then(response => {
@@ -20,12 +16,13 @@ function addToCart(element) {
             } else {
                 Swal.fire({
                     icon: 'success',
-                    title: `Product added to cart successfully`,
+                    title: response.message,
                     showCancelButton: false,
                     showConfirmButton: true,
                     allowOutsideClick: false,
                     allowEscapeKey: false
                 });
+                window.location.reload()
             }
         })
         .catch(error => {

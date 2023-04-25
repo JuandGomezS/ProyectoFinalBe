@@ -1,17 +1,24 @@
 import * as dotenv from 'dotenv';
-import { connectDB } from './src/DAO/createMongoConnection.js';
 import { startServer } from './app.js';
 import { executeServerCluster } from './src/utils/excetuteClusterMode.js';
 import { logger } from './src/utils/logger.js';
-import { config } from './src/constants/config.js';
+import parseArgs from 'yargs/yargs';
 
 dotenv.config();
 
-const port  = process.env.PORT || 8080;
+const port = process.env.PORT || 8080;
 
-connectDB();
+const { mode } = parseArgs(process.argv.slice(2))
+    .option('mode', {
+        alias: 'm',
+        describe: 'Modo de ejecución del servidor',
+        choices: ['FORK', 'CLUSTER'],
+        default: 'FORK'
+    })
+    .help()
+    .argv;
 
-switch (config.executionMode) {
+switch (mode.toLowerCase()) {
     case "cluster":
         logger.info("Executing app in cluster mode");
         executeServerCluster(port)

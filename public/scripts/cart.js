@@ -22,7 +22,9 @@ function sendOrder() {
                     allowOutsideClick: false,
                     allowEscapeKey: false
                 });
-                window.location.reload()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2000);
             }
         })
         .catch(error => {

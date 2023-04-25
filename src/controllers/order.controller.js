@@ -1,47 +1,47 @@
-import { Error } from '../constants/config.js';
-import { mongoProduct } from "../models/Mongo/Mongo.models.js";
-import { mongoCart } from "../models/Mongo/Mongo.models.js";
-import { MongoProduct } from "../models/Mongo/Product/product.database.js";
-import { MongoCart } from "../models/Mongo/Cart/cart.database.js";
-import { getUser } from '../models/Mongo/session/session.model.js';
+import { userService } from "../services/user.service.js";
+import { CartService } from "../services/cart.service.js";
 
-const products = new MongoProduct(mongoProduct);
-const carts = new MongoCart(mongoCart, products);
 
-export async function postOrder(req, res) {
-    const user = await getUser(req.session.passport.user);
-    const cart = await cartContainer.getById(user.cartId);
+const userPersitence = new userService();
+const cartPersistence = new CartService();
 
-    const buyedProducts = cart[0].productos.map(producto => {
-        return `${producto.nombre} - ${producto.precio}`
-    }).join("<br>")
+export default class OrderController {
 
-    const html = `<h1>Nuevo Pedido</h1>
-    ${buyedProducts}`;
+    postOrder = async (req, res) => {
+        const user = await userPersitence.getUser(req.session.passport.user);//
+        const cart = await cartPersistence.getCart(user.cartId);//
 
-    await sendEmailOrder(html, user[0].nombre, user[0].email);
+        const buyedProducts = cart[0].productos.map(producto => {
+            return `${producto.nombre} - ${producto.precio}`
+        }).join("<br>")
 
-    //SEND WHATSAPP
-    const waMessage = {
-        body: 'Su pedido ha sido recibido y se encuentra en proceso',
-        from: "whatsapp:" + process.env.TWILIO_REG_PHONE_WHATSAPP,
-        to: 'whatsapp:+5491137924505'
+        const html = `<h1>Nuevo Pedido</h1>
+        ${buyedProducts}`;
+
+        await sendEmailOrder(html, user[0].nombre, user[0].email);
+
+        //SEND WHATSAPP
+        const waMessage = {
+            body: 'Su pedido ha sido recibido y se encuentra en proceso',
+            from: "whatsapp:" + process.env.TWILIO_REG_PHONE_WHATSAPP,
+            to: 'whatsapp:+573208391894'
+        }
+
+        await sendOrder(waMessage);
+
+        // SEND SMS
+        const smsMessage = {
+            body: 'Su pedido ha sido recibido y se encuentra en proceso',
+            from: process.env.TWILIO_REG_PHONE_SMS,
+            to: '+573208391894'
+        }
+
+        await sendOrder(smsMessage);
+
+        // RESPONSE
+        res.json({
+            status: "pedido enviado"
+        })
+
     }
-
-    await sendOrder(waMessage);
-
-    // SEND SMS
-    const smsMessage = {
-        body: 'Su pedido ha sido recibido y se encuentra en proceso',
-        from: process.env.TWILIO_REG_PHONE_SMS,
-        to: '+5491137924505'
-    }
-
-    await sendOrder(smsMessage);
-
-    // RESPONSE
-    res.json({
-        status: "pedido enviado"
-    })
-
 }

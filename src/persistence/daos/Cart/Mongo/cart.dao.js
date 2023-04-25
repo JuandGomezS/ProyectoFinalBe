@@ -1,30 +1,21 @@
 
 import moment from "moment";
-import { config as configRoot } from "../../../constants/config.js";
-import { logger } from "../../../utils/logger.js";
+import { config as configRoot } from "../../../../constants/config.js";
+import { logger } from "../../../../utils/logger.js";
+import { transformToDTO } from "../../../dtos/cart.dto.js";
 
-export class MongoCart {
+export class CartDaoMongo {
     constructor(model, prodModel) {
         this.model = model
         this.prodModel = prodModel
     }
 
-    /**
-     * Async Method to get cart by id
-     * @param {number} id Id of cart to find
-     * @returns Object
-     */
     getCart = async (id) => {
         let cart = await this.model.find({ id: id }, { __v: 0 }).lean();
         if (cart.length == 0) return false;
-        return cart;
+        return transformToDTO(cart);
     }
 
-    /**
-     * Async Method to save cart
-     * @param {object} object
-     * @returns object
-     */
     saveCart = async (fromFront = false) => {
         try {
             let last = await this.model.find({}).sort({ id: -1 }).limit(1);
@@ -37,10 +28,11 @@ export class MongoCart {
             });
 
             await cart.save();
-            if(fromFront) return newId;
+            if (fromFront) return newId;
             return await this.getCart(newId)
 
         } catch (error) {
+            console.log(error)
             const response = {
                 error: 1,
                 message: `Error saving cart`
@@ -50,11 +42,6 @@ export class MongoCart {
         }
     }
 
-    /**
-     * Async method to delete cart by id
-     * @param {number} id
-     * @returns
-     */
     deleteCart = async (id) => {
         let response = {};
         let del = await this.model.deleteOne({ id: id });
@@ -70,7 +57,7 @@ export class MongoCart {
 
     appendProduct = async (idCart, idProd) => {
         try {
-            let product = await this.prodModel.getProduct(idProd)
+            let product = await this.prodModel.getProduct(idProd);
             if (!product || !product.length) {
                 return false;
             }
@@ -87,7 +74,7 @@ export class MongoCart {
                 qty,
                 total_price,
             }
-            let isPro = await this.#getProductInCart(idProd, idCart)
+            let isPro = await this.#getProductInCart(idProd, idCart);
             if (!isPro) {
                 this.model.updateOne(
                     { id: idCart },
@@ -107,11 +94,11 @@ export class MongoCart {
                     }
                 );
             }
-            return await this.getCart(idCart);
-
         } catch (error) {
             logger.error(`AppenProduct Error: ${error}`)
             return false;
+        } finally {
+            return await this.getCart(idCart);
         }
     }
 
@@ -141,10 +128,11 @@ export class MongoCart {
                 );
             }
 
-            return await this.getCart(idCart);
         } catch (error) {
             logger.error(`DeleteCartProduct Error: ${error}`)
             return false;
+        } finally {
+            return await this.getCart(idCart);
         }
     }
 

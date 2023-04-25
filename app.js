@@ -5,26 +5,27 @@ import express from "express";
 import { createServer } from 'http';
 import handlebars from "express-handlebars";
 import fileUpload from 'express-fileupload';
-
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
+import { Error } from './src/constants/config.js';
 import { Strategy as LocalStrategy } from "passport-local";
-
 import { logger } from './src/utils/logger.js';
 import { clearCache } from './src/utils/clearCache.js';
-
-import { loginUser, signupUser, serializeUser, deserializeUser } from './src/models/Mongo/session/session.model.js';
+import { UserService } from './src/services/user.service.js';
 import { auth } from './src/utils/authentication.js';
-import { destroyCredentials } from './src/controllers/session.controller.js';
-
-import { renderRoot, renderProfile, renderCart, notifyOrder } from './src/controllers/app.controller.js';
-import {  PRODUCTS_ROUTER }  from './src/routers/product.routes.js';
-import { CART_ROUTER }  from './src/routers/cart.routes.js';
+import SessionController from './src/controllers/session.controller.js';
+import AppController from './src/controllers/app.controller.js';
+import { PRODUCTS_ROUTER } from './src/routers/product.routes.js';
+import { CART_ROUTER } from './src/routers/cart.routes.js';
 import { SIGNUP_ROUTER } from './src/routers/signup.routes.js';
 import { LOGIN_ROUTER } from './src/routers/login.routes.js';
 
-export function startServer(port){
+
+const appController = new AppController();
+const sessionController = new SessionController();
+const userService = new UserService();
+export function startServer(port) {
 
     const app = express();
     const httpServer = createServer(app);
@@ -64,29 +65,29 @@ export function startServer(port){
     app.use(passport.session());
     app.use(clearCache);
 
-    const loginStrat = new LocalStrategy(loginUser);
-    const signupStrat = new LocalStrategy({ passReqToCallback: true }, signupUser);
+    const loginStrat = new LocalStrategy(userService.loginUser);
+    const signupStrat = new LocalStrategy({ passReqToCallback: true }, userService.signupUser);
 
     passport.use('login', loginStrat);
     passport.use('signup', signupStrat);
-    passport.serializeUser(serializeUser);
-    passport.deserializeUser(deserializeUser);
+    passport.serializeUser(userService.serializeUser);
+    passport.deserializeUser(userService.deserializeUser);
 
     app.engine('handlebars', handlebars.engine());
     app.set('views', './src/views');
     app.set('view engine', 'handlebars');
 
-    app.get("/", auth, renderRoot)
-        .get('/profile', auth, renderProfile)
-        .get('/cart', auth, renderCart)
-        .post('/order', auth, notifyOrder)
-        .get('/logout', destroyCredentials)
+    app.get("/", auth, appController.renderRoot)
+        .get('/profile', auth, appController.renderProfile)
+        .get('/cart', auth, appController.renderCart)
+        .post('/order', auth, appController.notifyOrder)
+        .get('/logout', sessionController.destroyCredentials)
         .use('/signup', SIGNUP_ROUTER)
         .use('/login', LOGIN_ROUTER)
         .use("/api/productos", PRODUCTS_ROUTER)
         .use("/api/carrito", CART_ROUTER);
 
-    app.all('*', function (req, res){
+    app.all('*', function (req, res) {
         const { url, method } = req
         let msg = `Route ${method} ${url} not implemented`;
         logger.warn(msg)

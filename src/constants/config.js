@@ -1,10 +1,11 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
+const selectedDatabase = 'Mongo';
+
 const config = {
     admin: process.env.ADMIN,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
-    executionMode: process.env.EXECUTION_MODE,
 
     productsCollection: "products",
     cartCollection: "carts",
@@ -31,7 +32,7 @@ const Error = {
         }),
 
     notImplemented: (req, res) =>
-        res.status(401).json({
+        res.status(404).json({
             error: -2,
             description: `Route ${req.hostname}${req.originalUrl} method ${req.method} not implemented `,
         }),
@@ -41,4 +42,4 @@ const Error = {
 
 };
 
-export { config, Error };
+export { config, Error, selectedDatabase };

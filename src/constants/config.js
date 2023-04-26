@@ -11,7 +11,12 @@ const config = {
     cartCollection: "carts",
     userCollection: "users",
 
-    mongoUri:process.env.MONGOURL
+    mongoUri:process.env.MONGOURL,
+
+    secretMongo: process.env.SECRETMONGO,
+    sessionTime: process.env.TTL,
+    executionMode: process.env.EXECUTION_MODE
+
 };
 
 

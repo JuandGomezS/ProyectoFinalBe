@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
 import { startServer } from './app.js';
 import { executeServerCluster } from './src/utils/excetuteClusterMode.js';
+import { config } from './src/constants/config.js';
 import { logger } from './src/utils/logger.js';
 import parseArgs from 'yargs/yargs';
 
@@ -13,7 +14,7 @@ const { mode } = parseArgs(process.argv.slice(2))
         alias: 'm',
         describe: 'Modo de ejecución del servidor',
         choices: ['FORK', 'CLUSTER'],
-        default: 'FORK'
+        default: config.executionMode
     })
     .help()
     .argv;

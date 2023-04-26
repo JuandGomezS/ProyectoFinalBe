@@ -8,14 +8,15 @@ import fileUpload from 'express-fileupload';
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
+import SessionController from './src/controllers/session.controller.js';
+import AppController from './src/controllers/app.controller.js';
+import { config } from './src/constants/config.js';
 import { Error } from './src/constants/config.js';
 import { Strategy as LocalStrategy } from "passport-local";
 import { logger } from './src/utils/logger.js';
 import { clearCache } from './src/utils/clearCache.js';
 import { UserService } from './src/services/user.service.js';
 import { auth } from './src/utils/authentication.js';
-import SessionController from './src/controllers/session.controller.js';
-import AppController from './src/controllers/app.controller.js';
 import { PRODUCTS_ROUTER } from './src/routers/product.routes.js';
 import { CART_ROUTER } from './src/routers/cart.routes.js';
 import { SIGNUP_ROUTER } from './src/routers/signup.routes.js';
@@ -46,17 +47,17 @@ export function startServer(port) {
 
     app.use(
         session({
-            secret: process.env.SECRETMONGO,
+            secret: config.secretMongo,
             saveUninitialized: false,
             resave: false,
             rolling: true,
             store: MongoStore.create({
                 mongoUrl: process.env.MONGOURL,
                 mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-                ttl: process.env.TTL,
+                ttl: config.sessionTime,
             }),
             cookie: {
-                maxAge: process.env.TTL * 1000,
+                maxAge: config.sessionTime * 1000,
             },
         })
     );
@@ -77,7 +78,7 @@ export function startServer(port) {
     app.set('views', './src/views');
     app.set('view engine', 'handlebars');
 
-    app.get("/", auth, appController.renderRoot)
+    app.get("/productos", auth, appController.renderRoot)
         .get('/profile', auth, appController.renderProfile)
         .get('/cart', auth, appController.renderCart)
         .post('/order', auth, appController.notifyOrder)

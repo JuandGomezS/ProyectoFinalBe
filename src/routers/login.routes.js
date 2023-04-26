@@ -8,7 +8,7 @@ const LOGIN_ROUTER = express.Router();
 
 LOGIN_ROUTER
     .get("/", sessionController.renderLogin)
-    .post("/", passport.authenticate('login', { failureRedirect: "/login/error", successRedirect: "/" }))
+    .post("/", passport.authenticate('login', { failureRedirect: "/login/error", successRedirect: "/productos" }))
     .get("/error", sessionController.renderFailLogin);
 
 export { LOGIN_ROUTER }

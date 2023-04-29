@@ -31,16 +31,14 @@ export function startServer(port) {
     const app = express();
     const httpServer = createServer(app);
 
-    const PORT = process.env.PORT || port;
-
     app.use(express.json());
     app.use(fileUpload());
     app.use(express.urlencoded({ extended: true }));
     app.use(express.static('public'));
     app.use('/public/avatars/', express.static('./public/avatars'));
 
-    httpServer.listen(PORT, () => {
-        logger.info(`Servidor escuchando en el puerto http://localhost:${PORT}`)
+    httpServer.listen(port, () => {
+        logger.info(`Servidor escuchando en el puerto http://localhost:${port}`)
     });
 
     httpServer.on("error", (error) => logger.warn("Error en servidor" + error));
@@ -78,7 +76,8 @@ export function startServer(port) {
     app.set('views', './src/views');
     app.set('view engine', 'handlebars');
 
-    app.get("/productos", auth, appController.renderRoot)
+    app.get('/', (req, res) => { res.redirect('/productos') })
+        .get("/productos", auth, appController.renderRoot)
         .get('/profile', auth, appController.renderProfile)
         .get('/cart', auth, appController.renderCart)
         .post('/order', auth, appController.notifyOrder)

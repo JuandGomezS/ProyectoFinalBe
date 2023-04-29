@@ -19,6 +19,10 @@ const config = {
 
 };
 
+const notifications = {
+    
+}
+
 
 const Error = {
     notFound: (res) =>

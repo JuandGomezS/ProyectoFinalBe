@@ -19,7 +19,7 @@ export class CartDaoMongo {
     saveCart = async (fromFront = false) => {
         try {
             let last = await this.model.find({}).sort({ id: -1 }).limit(1);
-            let newId = last.length > 0 ? parseInt(last.at(-1).id + 1) : 1;
+            let newId = last.length > 0 ? parseInt(last[0].id + 1) : 1;
 
             let cart = new this.model({
                 id: newId,
@@ -55,6 +55,12 @@ export class CartDaoMongo {
         return response;
     }
 
+    /**
+     * Function that adds a product validating if it is already in the cart to add 1 to qty.
+     * @param {Number} idCart 
+     * @param {Number} idProd 
+     * @returns {object} type Cart
+     */
     appendProduct = async (idCart, idProd) => {
         try {
             let product = await this.prodModel.getProduct(idProd);
@@ -102,6 +108,12 @@ export class CartDaoMongo {
         }
     }
 
+    /**
+     * Function that deletes a product validating if it is already in the cart to subtract 1 to qty.
+     * @param {Number} idCart 
+     * @param {Number} idProd 
+     * @returns {object} type Cart
+     */
     deleteCartProduct = async (idCart, idProd) => {
         try {
             let isPro = await await this.#getProductInCart(idProd, idCart)

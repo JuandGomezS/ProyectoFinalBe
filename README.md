@@ -1,4 +1,6 @@
-# Curso Backend - Coderhouse
+# Backend ecommerce Node 
+[![forthebadge](http://forthebadge.com/images/badges/made-with-javascript.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com)
 
 ## Sobre este proyecto
 

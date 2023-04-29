@@ -33,7 +33,7 @@ export class ProductDaoMongo {
     saveProduct = async (data) => {
         try {
             let last = await this.model.find({}).sort({ id: -1 }).limit(1);
-            let newId = last.length > 0 ? parseInt(last.at(-1).id + 1) : 1;
+            let newId = last.length > 0 ? parseInt(last[0].id + 1) : 1;
 
             let prod = new this.model({
                 id: newId,

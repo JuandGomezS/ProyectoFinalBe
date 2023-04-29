@@ -68,7 +68,7 @@ const notifyNewOrderToAdmin = async (user, newOrder) => {
             });
         console.log(message)
     } catch (error) {
-       logger.error(error);
+        logger.error(error);
     }
 }
 const notifyOrderToUser = async (userPhone) => {
@@ -81,7 +81,7 @@ const notifyOrderToUser = async (userPhone) => {
         });
         console.log(message)
     } catch (error) {
-       logger.error(error);
+        logger.error(error);
     }
 }
 

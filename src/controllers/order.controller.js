@@ -23,7 +23,7 @@ export default class OrderController {
         //SEND WHATSAPP
         const waMessage = {
             body: 'Su pedido ha sido recibido y se encuentra en proceso',
-            from: "whatsapp:" + process.env.TWILIO_REG_PHONE_WHATSAPP,
+            from: "whatsapp:" + process.env.TWIILIO_WHATSAPP,
             to: 'whatsapp:+573208391894'
         }
 
@@ -32,7 +32,7 @@ export default class OrderController {
         // SEND SMS
         const smsMessage = {
             body: 'Su pedido ha sido recibido y se encuentra en proceso',
-            from: process.env.TWILIO_REG_PHONE_SMS,
+            from: process.env.TWILIO_SMS,
             to: '+573208391894'
         }
 

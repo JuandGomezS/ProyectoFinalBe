@@ -50,7 +50,7 @@ export function startServer(port) {
             resave: false,
             rolling: true,
             store: MongoStore.create({
-                mongoUrl: process.env.MONGOURL,
+                mongoUrl: config.mongoUri,
                 mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
                 ttl: config.sessionTime,
             }),

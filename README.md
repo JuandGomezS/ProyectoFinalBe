@@ -1,38 +1,75 @@
 # Backend ecommerce Node 
 [![forthebadge](http://forthebadge.com/images/badges/made-with-javascript.svg)](http://forthebadge.com) [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/powered-by-coffee.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/works-on-my-machine.svg)](https://forthebadge.com)
 
-## Sobre este proyecto
+_Backend for ecommerce based on node, which implements business logic for CRUD of products and carts, additionally allows logging via local passport with mongoDB sessions._
 
-Elaboración de una API para ecommerce, trabajando la persistencia de la información en bases de datos relaciones, no relaciones y archivos.
+## Starting 🚀
 
-## Métodos de persistencia
+_These instructions will allow you to obtain a copy of the project up and running on your local machine for development and testing purposes:_
 
-Para almacenar la información, puede seleccionar el método de persistencia que desee editando la variable _selectedDatabase_ dentro del archivo **config.js**
+**Clone the repository:*
 
-A continuación, se detallan los métodos de persistencia junto a su código de selección:
+```
+git clone https://github.com/JuandGomezS/ProyectoFinalBe.git
+```
 
-| Tipo de persistencia | Código de selección |
-| -------------------- | ------------------- |
-| File System          | 1                   |
-| MySQL (Local)        | 2                   |
-| SQLite (Local)       | 3                   |
-| MongoDB (Remoto)     | 4                   |
-| Firebase             | 5                   |
+### Pre-requisitos 📋
 
-_En caso de seleccionar un código que no esté expresado en la tabla, se tomará por defecto la persistencia por FyleSystem._
+_Node.js v16.17.3. o superior_
 
-**Nota:** Se agregan archivos de creación de Base de datos para los métodos de persistencia vía SQL ya que se usaron llaves foráneas. Para persistencia por firebase se debe agregar el archivo .json en la ruta /src/DAOs/FireBaseService
 
-## Dependencias
+### Installation 🔧
 
-* dotenv
-* express
-* firebase-admin
-* knex
-* moment
-* mongoose
-* mysql
-* sqlite3
-* express-validator
-* nodemon
+**Start Node.js in the project:** 
+```
+npm init -y
+```
+
+## Operation ⚙️
+
+_Attached are the Postman collections which can be used to test the project._
+
+
+## Deploy 📦
+
+```
+npm start
+```
+
+## Built with 🛠️
+
+* [Node.JS](https://nodejs.org/en/)
+* [express](https://expressjs.com/)
+* [bcrypt](https://github.com/kelektiv/node.bcrypt.js#readme)
+* [connect-mongo](https://github.com/jdesboeufs/connect-mongo#readme)
+* [cookie-parser](https://github.com/expressjs/cookie-parser#readme)
+* [dotenv](https://github.com/motdotla/dotenv#readme)
+* [express-fileupload](https://github.com/richardgirges/express-fileupload#readme)
+* [express-handlebars](https://github.com/express-handlebars/express-handlebars#readme)
+* [express-session](https://github.com/expressjs/session#readme)
+* [express-validator](https://github.com/express-validator/express-validator#readme)
+* [moment](https://momentjs.com/docs/)
+* [mongoose](https://mongoosejs.com/docs/)
+* [nodemailer](https://nodemailer.com/about/)
+* [normalizr](https://github.com/paularmstrong/normalizr#readme)
+* [passport](http://www.passportjs.org/docs/)
+* [passport-local](https://github.com/jaredhanson/passport-local#readme)
+* [twilio](https://www.twilio.com/docs)
+* [winston](https://github.com/winstonjs/winston#readme)
+* [yargs](https://github.com/yargs/yargs#readme)
+
+
+## Version 📌
+
+_Version 1.0_
+
+## Authors ✒️
+
+
+* **Juan David Gómez** - *Trabajo Inicial* - [JuandGomezS](https://github.com/JuandGomezS)
+
+
+
+## Expressions of gratitude🎁
+
+* Deep gratitude to CoderHouse and their struggle for the democratization of education, which they deliver with great professionalism and technicality; also to thank Tamara, my tutor, for his perseverance and dedication, and Professor Marcos Villanueva for sharing his knowledge with such pedagogy.

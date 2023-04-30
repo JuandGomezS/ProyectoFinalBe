@@ -11,7 +11,7 @@ const config = {
     cartCollection: "carts",
     userCollection: "users",
 
-    mongoUri:process.env.MONGOURL,
+    mongoUri: process.env.MONGOURL,
 
     secretMongo: process.env.SECRETMONGO,
     sessionTime: process.env.TTL,
@@ -20,8 +20,17 @@ const config = {
 };
 
 const notifications = {
-    
-}
+    accountSid: process.env.ACCOUNT_SID,
+    authToken: process.env.AUTH_TOKEN,
+    service: process.env.SERVICE,
+    gmailPort: process.env.GMAIL_PORT,
+    mailUser: process.env.MAIL_USER,
+    mailPass: process.env.MAIL_PASS,
+    adminMail: process.env.ADMIN_MAIL,
+    twilioPhone: process.env.TWILIO_PHONE,
+    adminPhone: process.env.ADMIN_PHONE,
+    twilioNumberSMS: process.env.TWILIO_NUMBER_SMS
+};
 
 
 const Error = {
@@ -51,4 +60,4 @@ const Error = {
 
 };
 
-export { config, Error, selectedDatabase };
+export { config, Error, selectedDatabase, notifications };

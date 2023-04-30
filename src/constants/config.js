@@ -1,35 +1,35 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-const selectedDatabase = 1;
+const selectedDatabase = 'Mongo';
 
 const config = {
-    admin: true,
+    admin: process.env.ADMIN,
     timeFormat: "DD-MM-YYYY HH:mm:ss",
 
-    productsCollection: "product",
-    cartCollection: "cart",
+    productsCollection: "products",
+    cartCollection: "carts",
+    userCollection: "users",
 
-    mySql: {
-        client: "mysql",
-        connection: {
-            host: process.env.MYSQL_HOST,
-            port: process.env.MYSQL_PORT,
-            user: process.env.MYSQL_USER,
-            password: process.env.MYSQL_PWD,
-            database: process.env.MYSQL_DB,
-        },
-        useNullAsDefault: true,
-    },
+    mongoUri: process.env.MONGOURL,
 
-    sqlite: {
-        client: "sqlite3",
-        connection: {
-        },
-        useNullAsDefault: true,
-    },
+    secretMongo: process.env.SECRETMONGO,
+    sessionTime: process.env.TTL,
+    executionMode: process.env.EXECUTION_MODE
 
-    mongoUri:process.env.MONGO_REMOTE
+};
+
+const notifications = {
+    accountSid: process.env.ACCOUNT_SID,
+    authToken: process.env.AUTH_TOKEN,
+    service: process.env.SERVICE,
+    gmailPort: process.env.GMAIL_PORT,
+    mailUser: process.env.MAIL_USER,
+    mailPass: process.env.MAIL_PASS,
+    adminMail: process.env.ADMIN_MAIL,
+    twilioPhone: process.env.TWILIO_PHONE,
+    adminPhone: process.env.ADMIN_PHONE,
+    twilioNumberSMS: process.env.TWILIO_NUMBER_SMS
 };
 
 
@@ -50,7 +50,7 @@ const Error = {
         }),
 
     notImplemented: (req, res) =>
-        res.status(401).json({
+        res.status(404).json({
             error: -2,
             description: `Route ${req.hostname}${req.originalUrl} method ${req.method} not implemented `,
         }),
@@ -60,4 +60,4 @@ const Error = {
 
 };
 
-export { config, Error, selectedDatabase };
+export { config, Error, selectedDatabase, notifications };

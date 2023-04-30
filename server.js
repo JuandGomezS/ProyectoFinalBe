@@ -1,31 +1,32 @@
-import * as dotenv from 'dotenv'
+import * as dotenv from 'dotenv';
+import { startServer } from './app.js';
+import { executeServerCluster } from './src/utils/excetuteClusterMode.js';
+import { config } from './src/constants/config.js';
+import { logger } from './src/utils/logger.js';
+import parseArgs from 'yargs/yargs';
+
 dotenv.config();
-import express from "express";
-import {  PRODUCTS_ROUTER }  from './src/routers/product.routes.js';
-import { CART_ROUTER }  from './src/routers/cart.routes.js';
-const app = express();
-const PORT = process.env.PORT || 8080;
-import { Error } from './src/constants/config.js';
 
+const port = process.env.PORT || 8080;
 
-app.get("/", (req, res) => {
-    res.send('<h1 style="color:black"> Bienvenidos al Servidor Express </h1>');
-});
+const { mode } = parseArgs(process.argv.slice(2))
+    .option('mode', {
+        alias: 'm',
+        describe: 'Modo de ejecución del servidor',
+        choices: ['FORK', 'CLUSTER'],
+        default: config.executionMode
+    })
+    .help()
+    .argv;
 
+switch (mode.toLowerCase()) {
+    case "cluster":
+        logger.info("Executing app in cluster mode");
+        executeServerCluster(port)
+        break;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/api/productos", PRODUCTS_ROUTER);
-app.use("/api/carrito", CART_ROUTER);
-
-app.get('*', function (req, res){
-    return Error.notImplemented(req, res);
-});
-
-const server = app.listen(PORT, () => {
-    console.log("Server online on: ", `http://localhost:${PORT}`);
-});
-
-server.on("error", (error) => console.log("Error en servidor", error));
-
+    default:
+        logger.info("Executing app in fork mode");
+        startServer(port);
+        break;
+}
